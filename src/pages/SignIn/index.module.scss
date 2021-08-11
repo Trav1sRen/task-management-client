@@ -1,5 +1,13 @@
 .sign-in-wrapper {
-  padding: 30px;
+  height: 100vh;
+  display: flex;
+}
+
+.sign-in-box {
+  margin: auto;
+  width: 35%;
+  padding: 30px 100px;
+  background-color: #edf4ff;
 
   h1 {
     margin: 0;
@@ -9,6 +17,12 @@
 
   p {
     margin: 5px 0 16px;
+  }
+}
+
+.sign-in-box :global {
+  .next-input {
+    width: 95%;
   }
 }
 
