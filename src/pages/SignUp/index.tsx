@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '@/pages/SignUp/index.module.scss';
 import { Box, Divider, Form, Input } from '@alifd/next';
+import { useRequest } from 'ice';
+import user from '../../services/user';
 
 const FormItem = Form.Item;
 
 const SignUp = () => {
-  const handleSubmit = () => {};
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { request } = useRequest(user.signUp);
+
+  const handleSubmit = async () => {
+    // TODO: What is the return type of request()?
+    await request(username, password);
+  };
 
   return (
     <div className={styles.signUpWrapper}>
@@ -19,7 +29,7 @@ const SignUp = () => {
             minLength={6}
             minmaxLengthMessage="Length of username should be over 6"
           >
-            <Input name="username" placeholder="Username" />
+            <Input name="username" placeholder="Username" onChange={(val) => setUsername(val)} />
           </FormItem>
           <FormItem
             required
@@ -31,7 +41,7 @@ const SignUp = () => {
             1 lower case letter and one number OR special character."
             patternTrigger="onBlur"
           >
-            <Input.Password name="password" placeholder="Password" />
+            <Input.Password name="password" placeholder="Password" onChange={(val) => setPassword(val)} />
           </FormItem>
           <FormItem>
             <Divider />

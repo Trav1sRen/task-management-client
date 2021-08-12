@@ -5,7 +5,7 @@
 
 .sign-in-box {
   margin: auto;
-  width: 35%;
+  width: 500px;
   padding: 30px 100px;
   background-color: #edf4ff;
 
@@ -17,12 +17,6 @@
 
   p {
     margin: 5px 0 16px;
-  }
-}
-
-.sign-in-box :global {
-  .next-input {
-    width: 95%;
   }
 }
 
