@@ -1,0 +1,21 @@
+.sign-up-wrapper {
+  height: 100vh;
+  display: flex;
+}
+
+.sign-up-box {
+  margin: auto;
+  width: 30%;
+  padding: 30px 60px;
+  background-color: #edf4ff;
+
+  h1 {
+    margin: 0;
+    font-size: 2em;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 5px 0 12px;
+  }
+}
