@@ -5,7 +5,7 @@ const appConfig: IAppConfig = {
     rootId: 'ice-container',
   },
   request: {
-    baseURL: 'https://localhost:3000',
+    baseURL: 'http://localhost:3000',
   },
 };
 

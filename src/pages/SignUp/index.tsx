@@ -7,14 +7,20 @@ import user from '../../services/user';
 const FormItem = Form.Item;
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [signUpErrors, setSignUpErrors] = useState<string[]>([]);
 
-  const { request } = useRequest(user.signUp);
+  const { loading, request } = useRequest(user.signUp, {
+    throwOnError: true,
+  });
 
-  const handleSubmit = async () => {
-    // TODO: What is the return type of request()?
-    await request(username, password);
+  const handleSubmit = async ({ username, password }, validationErr) => {
+    if (!validationErr) {
+      try {
+        await request(username, password);
+      } catch ({ response: { message } }) {
+        setSignUpErrors((errors) => [message, ...errors]);
+      }
+    }
   };
 
   return (
@@ -29,7 +35,7 @@ const SignUp = () => {
             minLength={6}
             minmaxLengthMessage="Length of username should be over 6"
           >
-            <Input name="username" placeholder="Username" onChange={(val) => setUsername(val)} />
+            <Input name="username" placeholder="Username" />
           </FormItem>
           <FormItem
             required
@@ -41,11 +47,16 @@ const SignUp = () => {
             1 lower case letter and one number OR special character."
             patternTrigger="onBlur"
           >
-            <Input.Password name="password" placeholder="Password" onChange={(val) => setPassword(val)} />
+            <Input.Password name="password" placeholder="Password" />
           </FormItem>
           <FormItem>
             <Divider />
           </FormItem>
+          {signUpErrors.map((errMsg) => (
+            <FormItem>
+              <p className={styles.errorMessages}>{errMsg}</p>
+            </FormItem>
+          ))}
           <FormItem>
             <Form.Submit type="primary" validate onClick={handleSubmit}>
               SIGN UP
