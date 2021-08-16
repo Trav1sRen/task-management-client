@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styles from '@/pages/SignUp/index.module.scss';
-import { Box, Divider, Form, Input } from '@alifd/next';
+import { Box, Divider, Form, Input, Message } from '@alifd/next';
 import { useRequest } from 'ice';
 import user from '../../services/user';
 
 const FormItem = Form.Item;
 
 const SignUp = () => {
-  const [signUpErrors, setSignUpErrors] = useState<string[]>([]);
+  const [signUpError, setSignUpError] = useState('');
 
   const { loading, request } = useRequest(user.signUp, {
     throwOnError: true,
@@ -17,8 +17,16 @@ const SignUp = () => {
     if (!validationErr) {
       try {
         await request(username, password);
-      } catch ({ response: { message } }) {
-        setSignUpErrors((errors) => [message, ...errors]);
+      } catch (error) {
+        if (error.response?.status) {
+          const {
+            response: {
+              data: { message },
+              status,
+            },
+          } = error;
+          ![500, 404].includes(status) && setSignUpError(message);
+        }
       }
     }
   };
@@ -42,7 +50,7 @@ const SignUp = () => {
             requiredMessage="Please input the password!"
             minLength={6}
             minmaxLengthMessage="Length of password should be over 6"
-            pattern={/^(?=.*[A-Z])(?=.*[!@#$&*0-9])(?=.*[a-z]).{6,}$/i}
+            pattern={/^(?=.*[A-Z])(?=.*[!@#$&*0-9])(?=.*[a-z]).{6,}$/}
             patternMessage="Passwords must contain at least 1 upper case letter,
             1 lower case letter and one number OR special character."
             patternTrigger="onBlur"
@@ -52,13 +60,13 @@ const SignUp = () => {
           <FormItem>
             <Divider />
           </FormItem>
-          {signUpErrors.map((errMsg) => (
+          {signUpError && (
             <FormItem>
-              <p className={styles.errorMessages}>{errMsg}</p>
+              <Message type="error">{signUpError}</Message>
             </FormItem>
-          ))}
+          )}
           <FormItem>
-            <Form.Submit type="primary" validate onClick={handleSubmit}>
+            <Form.Submit type="primary" validate onClick={handleSubmit} disabled={loading}>
               SIGN UP
             </Form.Submit>
           </FormItem>
