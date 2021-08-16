@@ -4,4 +4,10 @@ export default {
     method: 'POST',
     data: { username, password },
   }),
+
+  signIn: (username, password) => ({
+    url: '/auth/signin',
+    method: 'POST',
+    data: { username, password },
+  }),
 };

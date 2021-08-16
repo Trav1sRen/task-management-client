@@ -1,0 +1,28 @@
+.header-wrapper :global {
+  border-bottom: 3px solid #757c87;
+
+  h1 {
+    color: #edf4ff;
+    font-size: 2em;
+    font-weight: bold;
+  }
+
+  .next-icon-first {
+    padding-bottom: 3px;
+  }
+}
+
+.header-box {
+  width: 50%;
+}
+
+.icon-text {
+  text-transform: uppercase;
+}
+
+.exit-icon {
+  color: #edf4ff;
+  font-weight: bold;
+  padding: 12px;
+  margin-left: 10px;
+}

@@ -1,12 +1,38 @@
-import React from 'react';
-import { Box, Form, Input } from '@alifd/next';
+import React, { useState } from 'react';
+import { Box, Divider, Form, Input, Message } from '@alifd/next';
 import styles from './index.module.scss';
-import { Link } from 'ice';
+import { Link, useHistory, useRequest } from 'ice';
+import user from '@/services/user';
 
 const FormItem = Form.Item;
 
 const SignIn = () => {
-  const handleSubmit = () => {};
+  const history = useHistory();
+
+  const { loading, request } = useRequest(user.signIn, {
+    throwOnError: true,
+  });
+
+  const [signInError, setSetInError] = useState('');
+
+  const handleSubmit = async ({ username, password }, validationErr) => {
+    if (!validationErr) {
+      try {
+        await request(username, password);
+        history.push('/tasks');
+      } catch (error) {
+        if (error.response?.status) {
+          const {
+            response: {
+              data: { message },
+              status,
+            },
+          } = error;
+          ![500, 404].includes(status) && setSetInError(message);
+        }
+      }
+    }
+  };
 
   return (
     <div className={styles.signInWrapper}>
@@ -14,14 +40,32 @@ const SignIn = () => {
         <h1>Hello!</h1>
         <p>Fill in your username and password to sign in.</p>
         <Form>
-          <FormItem required requiredMessage="Please input your username!">
+          <FormItem
+            required
+            requiredMessage="Please input the username!"
+            minLength={6}
+            minmaxLengthMessage="Length of username should be over 6"
+          >
             <Input name="username" placeholder="Username" />
           </FormItem>
-          <FormItem required requiredMessage="Please input your password!">
+          <FormItem
+            required
+            requiredMessage="Please input the password!"
+            minLength={6}
+            minmaxLengthMessage="Length of password should be over 6"
+          >
             <Input.Password name="password" placeholder="Password" />
           </FormItem>
           <FormItem>
-            <Form.Submit type="primary" validate onClick={handleSubmit}>
+            <Divider />
+          </FormItem>
+          {signInError && (
+            <FormItem>
+              <Message type="error">{signInError}</Message>
+            </FormItem>
+          )}
+          <FormItem>
+            <Form.Submit type="primary" validate onClick={handleSubmit} disabled={loading}>
               SIGN IN
             </Form.Submit>
           </FormItem>

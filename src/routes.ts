@@ -1,6 +1,7 @@
 import SignIn from '@/pages/SignIn';
 import { IRouterConfig } from 'ice';
 import SignUp from '@/pages/SignUp';
+import Tasks from '@/pages/Tasks';
 
 const routerConfig: IRouterConfig[] = [
   {
@@ -15,6 +16,11 @@ const routerConfig: IRouterConfig[] = [
         path: '/sign-up',
         exact: true,
         component: SignUp,
+      },
+      {
+        path: '/tasks',
+        exact: true,
+        component: Tasks,
       },
     ],
   },

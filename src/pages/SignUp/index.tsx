@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styles from '@/pages/SignUp/index.module.scss';
 import { Box, Divider, Form, Input, Message } from '@alifd/next';
-import { useRequest } from 'ice';
+import { useHistory, useRequest } from 'ice';
 import user from '../../services/user';
 
 const FormItem = Form.Item;
 
 const SignUp = () => {
+  const history = useHistory();
+
   const [signUpError, setSignUpError] = useState('');
 
   const { loading, request } = useRequest(user.signUp, {
@@ -17,6 +19,7 @@ const SignUp = () => {
     if (!validationErr) {
       try {
         await request(username, password);
+        history.push('/');
       } catch (error) {
         if (error.response?.status) {
           const {
