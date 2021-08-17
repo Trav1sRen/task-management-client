@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { Box, Divider, Form, Input, Message } from '@alifd/next';
 import styles from './index.module.scss';
 import { Link, useHistory, useRequest } from 'ice';
-import user from '@/services/user';
+import userService from '@/services/user';
+import store from '@/store';
 
 const FormItem = Form.Item;
 
 const SignIn = () => {
+  const { setAccessToken } = store.useModelDispatchers('token');
+
   const history = useHistory();
 
-  const { loading, request } = useRequest(user.signIn, {
+  const { loading, request } = useRequest(userService.signIn, {
     throwOnError: true,
   });
 
@@ -19,6 +22,7 @@ const SignIn = () => {
     if (!validationErr) {
       try {
         const { accessToken } = await request(username, password);
+        setAccessToken({ accessToken });
         window.localStorage.accessToken = accessToken;
 
         history.push('/tasks');
