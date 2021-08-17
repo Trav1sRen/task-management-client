@@ -1,4 +1,4 @@
-.header-wrapper :global {
+.header-wrapper {
   border-bottom: 3px solid #757c87;
 
   h1 {
@@ -6,7 +6,9 @@
     font-size: 2em;
     font-weight: bold;
   }
+}
 
+.header-wrapper :global {
   .next-icon-first {
     padding-bottom: 3px;
   }

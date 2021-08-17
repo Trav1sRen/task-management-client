@@ -13,12 +13,14 @@ const SignIn = () => {
     throwOnError: true,
   });
 
-  const [signInError, setSetInError] = useState('');
+  const [signInError, setSignInError] = useState('');
 
   const handleSubmit = async ({ username, password }, validationErr) => {
     if (!validationErr) {
       try {
-        await request(username, password);
+        const { accessToken } = await request(username, password);
+        window.localStorage.accessToken = accessToken;
+
         history.push('/tasks');
       } catch (error) {
         if (error.response?.status) {
@@ -28,7 +30,7 @@ const SignIn = () => {
               status,
             },
           } = error;
-          ![500, 404].includes(status) && setSetInError(message);
+          ![500, 404].includes(status) && setSignInError(message);
         }
       }
     }
