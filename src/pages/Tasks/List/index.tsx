@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import store from '@/store';
 
 const List = () => {
-  const { loading, request } = store.useModel('tasks');
+  const [{ tasks }, { getTasks }] = store.useModel('tasks');
 
   useEffect(() => {
     (async function () {
-      await request();
+      await getTasks();
     })();
   });
 
-  return loading ? <p>Loading your tasks...</p> : <></>;
+  return <></>;
 };
 
 export default List;

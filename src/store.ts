@@ -1,7 +1,13 @@
 import token from '@/models/token';
 import tasks from '@/models/tasks';
 import { createStore } from '@ice/store';
+import { IAppStoreModels } from '@/types/store';
 
-const store = createStore({ token, tasks });
+export const appModels: IAppStoreModels = {
+  token,
+  tasks,
+};
+
+const store = createStore(appModels);
 
 export default store;

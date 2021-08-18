@@ -8,6 +8,6 @@ export default {
   },
 
   reducers: {
-    setAccessToken: (prevState: IState, payload: IState) => ({ ...prevState, ...payload }),
+    update: (prevState: IState, payload: IState) => ({ ...prevState, ...payload }),
   },
 };

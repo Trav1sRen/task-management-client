@@ -1,8 +1,10 @@
 import { ISearchTasksParam } from '@/types/task';
 
 export default {
-  getTasksWithFilter: (param: ISearchTasksParam = {}) => ({
+  getTasks: (param: ISearchTasksParam = {}, accessToken: string) => ({
     url: '/tasks',
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` },
     param,
   }),
 };

@@ -8,7 +8,7 @@ import store from '@/store';
 const FormItem = Form.Item;
 
 const SignIn = () => {
-  const { setAccessToken } = store.useModelDispatchers('token');
+  const { update } = store.useModelDispatchers('token');
 
   const history = useHistory();
 
@@ -22,7 +22,7 @@ const SignIn = () => {
     if (!validationErr) {
       try {
         const { accessToken } = await request(username, password);
-        setAccessToken({ accessToken });
+        update({ accessToken });
         window.localStorage.accessToken = accessToken;
 
         history.push('/tasks');
