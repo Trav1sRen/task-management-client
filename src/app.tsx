@@ -15,6 +15,10 @@ const appConfig: IAppConfig = {
               response: { status },
             } = error;
 
+            if (status === 401) {
+              window.location.hash = '/';
+            }
+
             if (status === 500) {
               Message.error({ content: 'Internal Server Error occurred' });
             }
