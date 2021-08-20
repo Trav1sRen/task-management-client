@@ -15,6 +15,7 @@ export default {
 
   reducers: {
     update: (prevState: IState, payload: IState) => ({ ...prevState, ...payload }),
+    delete: ({ tasks }: IState, id: number) => ({ tasks: tasks.filter((task) => task.id !== id) }),
   },
 
   // Why using deconstructor on dispatch will cause TS error?
@@ -25,6 +26,13 @@ export default {
         taskService.getTasks(param, accessToken || window.localStorage.accessToken) as AxiosRequestConfig,
       );
       dispatch.task.update({ tasks });
+    },
+
+    deleteTask: async (id: number, { token: { accessToken } }: IRootState) => {
+      await request<ITask[]>(
+        taskService.deleteTask(id, accessToken || window.localStorage.accessToken) as AxiosRequestConfig,
+      );
+      dispatch.task.delete(id);
     },
   }),
 };

@@ -10,17 +10,13 @@ const Item = ({ id, title, status, description }: ITask) => {
     <Box className={styles.itemWrapper}>
       <h1>{title}</h1>
       <p>{description}</p>
-      <Box direction="row" className={styles.bottomWrapper}>
-        <Box align="flex-start" className={styles.bottomBox}>
-          <Select id="status" defaultValue={status} className={styles.statusSelect}>
-            <Option value={TaskStatus.OPEN}>{TaskStatus.OPEN}</Option>
-            <Option value={TaskStatus.DONE}>{TaskStatus.DONE}</Option>
-            <Option value={TaskStatus.IN_PROGRESS}>{TaskStatus.IN_PROGRESS}</Option>
-          </Select>
-        </Box>
-        <Box align="flex-end" justify="center" className={styles.bottomBox}>
-          <Icon type="ashbin" className={styles.deleteIcon} />
-        </Box>
+      <Box direction="row" align="center" justify="space-between" className={styles.bottomWrapper}>
+        <Select id="status" defaultValue={status} className={styles.statusSelect}>
+          <Option value={TaskStatus.OPEN}>{TaskStatus.OPEN}</Option>
+          <Option value={TaskStatus.DONE}>{TaskStatus.DONE}</Option>
+          <Option value={TaskStatus.IN_PROGRESS}>{TaskStatus.IN_PROGRESS}</Option>
+        </Select>
+        <Icon type="ashbin" className={styles.deleteIcon} />
       </Box>
     </Box>
   );
