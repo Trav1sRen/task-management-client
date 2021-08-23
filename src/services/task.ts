@@ -1,4 +1,4 @@
-import { ISearchTasksParam } from '@/types/task';
+import { ICreateTaskDto, ISearchTasksParam } from '@/types/task';
 
 export default {
   getTasks: (param: ISearchTasksParam, accessToken: string) => ({
@@ -6,6 +6,13 @@ export default {
     method: 'GET',
     headers: { Authorization: `Bearer ${accessToken}` },
     param,
+  }),
+
+  createTask: (data: ICreateTaskDto, accessToken: string) => ({
+    url: '/tasks',
+    method: 'POST',
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data,
   }),
 
   deleteTask: (id: number, accessToken: string) => ({

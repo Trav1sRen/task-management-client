@@ -1,4 +1,4 @@
-import { ISearchTasksParam, ITask } from '@/types/task';
+import { ICreateTaskDto, ISearchTasksParam, ITask } from '@/types/task';
 import { request } from 'ice';
 import taskService from '@/services/task';
 import { IRootDispatch, IRootState } from '@/types/store';
@@ -29,10 +29,16 @@ export default {
     },
 
     deleteTask: async (id: number, { token: { accessToken } }: IRootState) => {
-      await request<ITask[]>(
-        taskService.deleteTask(id, accessToken || window.localStorage.accessToken) as AxiosRequestConfig,
-      );
+      await request(taskService.deleteTask(id, accessToken || window.localStorage.accessToken) as AxiosRequestConfig);
       dispatch.task.delete(id);
+    },
+
+    createTask: async (data: ICreateTaskDto, { token: { accessToken }, task: { tasks } }: IRootState) => {
+      const task = await request<ITask>(
+        taskService.createTask(data, accessToken || window.localStorage.accessToken) as AxiosRequestConfig,
+      );
+
+      dispatch.task.update({ tasks: [task, ...tasks] });
     },
   }),
 };

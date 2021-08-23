@@ -1,0 +1,10 @@
+.search-wrapper {
+  margin-top: 20px;
+}
+
+.search-wrapper :global {
+  .next-search-normal {
+    width: 100%;
+  }
+}
+

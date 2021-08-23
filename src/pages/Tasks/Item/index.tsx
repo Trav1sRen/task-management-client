@@ -2,10 +2,15 @@ import React from 'react';
 import { ITask, TaskStatus } from '@/types/task';
 import { Box, Icon, Select } from '@alifd/next';
 import styles from './index.module.scss';
+import store from '@/store';
 
 const { Option } = Select;
 
 const Item = ({ id, title, status, description }: ITask) => {
+  const { deleteTask } = store.useModelDispatchers('task');
+
+  const handleDeleteItem = () => deleteTask(id);
+
   return (
     <Box className={styles.itemWrapper}>
       <h1>{title}</h1>
@@ -16,7 +21,7 @@ const Item = ({ id, title, status, description }: ITask) => {
           <Option value={TaskStatus.DONE}>{TaskStatus.DONE}</Option>
           <Option value={TaskStatus.IN_PROGRESS}>{TaskStatus.IN_PROGRESS}</Option>
         </Select>
-        <Icon type="ashbin" className={styles.deleteIcon} />
+        <Icon type="ashbin" className={styles.deleteIcon} onClick={handleDeleteItem} />
       </Box>
     </Box>
   );

@@ -11,9 +11,14 @@ interface ITask {
   status: TaskStatus;
 }
 
+interface ICreateTaskDto {
+  title: string;
+  description: string;
+}
+
 interface ISearchTasksParam {
   status?: TaskStatus;
   search?: string;
 }
 
-export type { ITask, ISearchTasksParam };
+export type { ITask, ICreateTaskDto, ISearchTasksParam };

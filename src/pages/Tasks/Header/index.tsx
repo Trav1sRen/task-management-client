@@ -9,21 +9,23 @@ const Header = () => {
 
   const history = useHistory();
 
-  const handleExitClick = () => {
+  const handleExit = () => {
     window.localStorage.removeItem('accessToken');
     update({ accessToken: '' });
     history.replace('/');
   };
 
+  const handleCreateTask = () => history.push('/tasks/create');
+
   return (
     <Box direction="row" className={styles.headerWrapper} justify="space-between">
       <h1>Get things done</h1>
       <Box direction="row" align="center">
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={handleCreateTask}>
           <Icon type="add" />
           <div className={styles.iconText}>create task</div>
         </Button>
-        <Icon type="exit" size="large" className={styles.exitIcon} onClick={handleExitClick} />
+        <Icon type="exit" size="large" className={styles.exitIcon} onClick={handleExit} />
       </Box>
     </Box>
   );

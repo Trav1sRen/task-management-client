@@ -5,9 +5,6 @@ import Item from '@/pages/Tasks/Item';
 
 const List = () => {
   const [{ tasks }, { getTasks }] = store.useModel('task');
-  const {
-    getTasks: { isLoading, error },
-  } = store.useModelEffectsState('task');
 
   useEffect(() => {
     (async function () {
