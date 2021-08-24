@@ -1,4 +1,4 @@
-import { ICreateTaskDto, ISearchTasksParam, ITask } from '@/types/task';
+import { ICreateTaskDto, ISearchTasksParam, ITask, IUpdateTaskStatusDto } from '@/types/task';
 import { request } from 'ice';
 import taskService from '@/services/task';
 import { IRootDispatch, IRootState } from '@/types/store';
@@ -8,6 +8,11 @@ interface IState {
   tasks: ITask[];
 }
 
+interface IUpdateTaskStatusPayload {
+  id: number;
+  data: IUpdateTaskStatusDto;
+}
+
 export default {
   state: {
     tasks: [] as ITask[],
@@ -15,7 +20,6 @@ export default {
 
   reducers: {
     update: (prevState: IState, payload: IState) => ({ ...prevState, ...payload }),
-    delete: ({ tasks }: IState, id: number) => ({ tasks: tasks.filter((task) => task.id !== id) }),
   },
 
   // Why using deconstructor on dispatch will cause TS error?
@@ -28,9 +32,9 @@ export default {
       dispatch.task.update({ tasks });
     },
 
-    deleteTask: async (id: number, { token: { accessToken } }: IRootState) => {
+    deleteTask: async (id: number, { token: { accessToken }, task: { tasks } }: IRootState) => {
       await request(taskService.deleteTask(id, accessToken || window.localStorage.accessToken) as AxiosRequestConfig);
-      dispatch.task.delete(id);
+      dispatch.task.update({ tasks: tasks.filter((task) => task.id !== id) });
     },
 
     createTask: async (data: ICreateTaskDto, { token: { accessToken }, task: { tasks } }: IRootState) => {
@@ -39,6 +43,20 @@ export default {
       );
 
       dispatch.task.update({ tasks: [task, ...tasks] });
+    },
+
+    updateTaskStatus: async (
+      { id, data }: IUpdateTaskStatusPayload,
+      { token: { accessToken }, task: { tasks } }: IRootState,
+    ) => {
+      const updatedTask = await request<ITask>(
+        taskService.updateTaskStatus(id, data, accessToken || window.localStorage.accessToken) as AxiosRequestConfig,
+      );
+
+      const idx = tasks.findIndex((task) => task.id === updatedTask.id);
+      const newTasks = [...tasks];
+      newTasks[idx] = updatedTask;
+      dispatch.task.update({ tasks: newTasks });
     },
   }),
 };
