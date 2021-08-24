@@ -1,11 +1,12 @@
-import { ICreateTaskDto, ISearchTasksParam, IUpdateTaskStatusDto } from '@/types/task';
+import { ICreateTaskDto, ISearchTasksParam, IUpdateTaskStatusDto, TaskStatus } from '@/types/task';
+import { getEnumKeyByEnumValue } from '@/tools/enum.utils';
 
 export default {
-  getTasks: (param: ISearchTasksParam, accessToken: string) => ({
+  getTasks: ({ status, search }: ISearchTasksParam, accessToken: string) => ({
     url: '/tasks',
     method: 'GET',
     headers: { Authorization: `Bearer ${accessToken}` },
-    param,
+    param: { status: status ? getEnumKeyByEnumValue(TaskStatus, status) : undefined, search },
   }),
 
   createTask: (data: ICreateTaskDto, accessToken: string) => ({
@@ -15,11 +16,11 @@ export default {
     data,
   }),
 
-  updateTaskStatus: (id: number, data: IUpdateTaskStatusDto, accessToken: string) => ({
+  updateTaskStatus: (id: number, { status }: IUpdateTaskStatusDto, accessToken: string) => ({
     url: `/tasks/${id}/status`,
     method: 'PATCH',
     headers: { Authorization: `Bearer ${accessToken}` },
-    data,
+    data: { status: getEnumKeyByEnumValue(TaskStatus, status) },
   }),
 
   deleteTask: (id: number, accessToken: string) => ({

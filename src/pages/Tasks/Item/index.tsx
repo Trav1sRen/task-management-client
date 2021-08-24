@@ -18,7 +18,7 @@ const Item = ({ id, title, status, description }: ITask) => {
       <h1>{title}</h1>
       <p>{description}</p>
       <Box direction="row" align="center" justify="space-between" className={styles.bottomWrapper}>
-        <Select defaultValue={status} className={styles.statusSelect} onChange={handleStatusChange}>
+        <Select defaultValue={TaskStatus[status]} className={styles.statusSelect} onChange={handleStatusChange}>
           <Option value={TaskStatus.OPEN}>{TaskStatus.OPEN}</Option>
           <Option value={TaskStatus.DONE}>{TaskStatus.DONE}</Option>
           <Option value={TaskStatus.IN_PROGRESS}>{TaskStatus.IN_PROGRESS}</Option>

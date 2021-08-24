@@ -1,7 +1,8 @@
 export enum TaskStatus {
-  OPEN = 'OPEN',
-  IN_PROGRESS = 'IN_PROGRESS',
-  DONE = 'DONE',
+  NO_STATUS = 'No Status Filter',
+  OPEN = 'Open',
+  IN_PROGRESS = 'In Progress',
+  DONE = 'Done',
 }
 
 interface ITask {
