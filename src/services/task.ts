@@ -4,9 +4,8 @@ import { getEnumKeyByEnumValue } from '@/tools/enum.utils';
 export default {
   getTasks: ({ status, search }: ISearchTasksParam, accessToken: string) => ({
     url: '/tasks',
-    method: 'GET',
     headers: { Authorization: `Bearer ${accessToken}` },
-    param: { status: status ? getEnumKeyByEnumValue(TaskStatus, status) : undefined, search },
+    params: { status: status ? getEnumKeyByEnumValue(TaskStatus, status) : undefined, search },
   }),
 
   createTask: (data: ICreateTaskDto, accessToken: string) => ({

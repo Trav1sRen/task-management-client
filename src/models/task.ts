@@ -26,9 +26,7 @@ export default {
   effects: (dispatch: IRootDispatch) => ({
     // Why cannot set default value for payload here?
     getTasks: async (param: ISearchTasksParam, { token: { accessToken } }: IRootState) => {
-      const tasks = await request<ITask[]>(
-        taskService.getTasks(param, accessToken || window.localStorage.accessToken) as AxiosRequestConfig,
-      );
+      const tasks = await request<ITask[]>(taskService.getTasks(param, accessToken || window.localStorage.accessToken));
       dispatch.task.update({ tasks });
     },
 
