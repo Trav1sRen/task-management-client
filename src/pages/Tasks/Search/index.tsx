@@ -1,24 +1,24 @@
 import React from 'react';
 import { Search as SearchBox } from '@alifd/next';
-import { TaskStatus } from '@/types/task';
 import styles from './index.module.scss';
 import store from '@/store';
+import { NO_STATUS_FILTER } from '@/constants/task';
 
 const Search = () => {
+  const { statusDict } = window.localStorage;
+
   const { getTasks } = store.useModelDispatchers('task');
 
-  const handleSearch = (searchVal: string, filterVal: TaskStatus) => {
+  const handleSearch = (searchVal: string, filterVal: string) => {
     getTasks({
       search: searchVal === '' ? undefined : searchVal,
-      status: filterVal === TaskStatus.NO_STATUS ? undefined : filterVal,
+      status: filterVal === NO_STATUS_FILTER ? undefined : filterVal,
     });
   };
 
   const statusFilter = [
-    { label: TaskStatus.NO_STATUS, value: TaskStatus.NO_STATUS },
-    { label: TaskStatus.OPEN, value: TaskStatus.OPEN },
-    { label: TaskStatus.IN_PROGRESS, value: TaskStatus.IN_PROGRESS },
-    { label: TaskStatus.DONE, value: TaskStatus.DONE },
+    { label: NO_STATUS_FILTER, value: NO_STATUS_FILTER },
+    ...Object.values(statusDict).map((statusName: string) => ({ label: statusName, value: statusName })),
   ];
 
   return (
@@ -28,7 +28,7 @@ const Search = () => {
         placeholder="Please input the search keyword..."
         filter={statusFilter}
         filterProps={{ autoWidth: false }}
-        defaultFilterValue={TaskStatus.NO_STATUS}
+        defaultFilterValue={NO_STATUS_FILTER}
         onSearch={handleSearch}
       />
     </div>

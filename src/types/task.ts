@@ -1,15 +1,8 @@
-export enum TaskStatus {
-  NO_STATUS = 'No Status Filter',
-  OPEN = 'Open',
-  IN_PROGRESS = 'In Progress',
-  DONE = 'Done',
-}
-
 interface ITask {
   id: number;
   title: string;
   description: string;
-  status: TaskStatus;
+  statusId: number;
 }
 
 interface ICreateTaskDto {
@@ -18,11 +11,11 @@ interface ICreateTaskDto {
 }
 
 interface IUpdateTaskStatusDto {
-  status: TaskStatus;
+  status: string;
 }
 
 interface ISearchTasksParam {
-  status?: TaskStatus;
+  status?: string;
   search?: string;
 }
 

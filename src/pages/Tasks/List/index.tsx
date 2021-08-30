@@ -10,7 +10,7 @@ const List = () => {
     (async function () {
       await getTasks({});
     })();
-  }, [getTasks]);
+  }, []);
 
   return (
     <ul>

@@ -1,5 +1,6 @@
 import { IAppConfig, runApp } from 'ice';
 import { Message } from '@alifd/next';
+import { objectToValuesPolyfill } from '@/tools/object.utils';
 
 const appConfig: IAppConfig = {
   app: {
@@ -34,5 +35,7 @@ const appConfig: IAppConfig = {
     },
   },
 };
+
+Object.values = Object.values || objectToValuesPolyfill;
 
 runApp(appConfig);
