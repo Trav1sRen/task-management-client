@@ -5,13 +5,18 @@ import { useHistory } from 'ice';
 import store from '@/store';
 
 const Header = () => {
-  const { update } = store.useModelDispatchers('token');
+  const { update: updateToken } = store.useModelDispatchers('token');
+  const { update: updateStatusDict } = store.useModelDispatchers('taskStatus');
 
   const history = useHistory();
 
   const handleExit = () => {
     window.localStorage.removeItem('accessToken');
-    update({ accessToken: '' });
+    updateToken({ accessToken: '' });
+
+    window.localStorage.removeItem('statusDict');
+    updateStatusDict({ statusDict: {} });
+
     history.replace('/');
   };
 

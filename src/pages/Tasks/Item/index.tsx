@@ -3,13 +3,15 @@ import { ITask } from '@/types/task';
 import { Box, Icon, Select } from '@alifd/next';
 import styles from './index.module.scss';
 import store from '@/store';
+import * as _ from 'lodash';
 
 const { Option } = Select;
 
 const Item = ({ id, title, status: statusId, description }: ITask) => {
-  const statusDict = JSON.parse(window.localStorage.getItem('statusDict')!);
-
   const { deleteTask, updateTaskStatus } = store.useModelDispatchers('task');
+  let { statusDict } = store.useModelState('taskStatus');
+
+  statusDict = _.isEmpty(statusDict) ? JSON.parse(window.localStorage.statusDict) : statusDict;
 
   const handleDeleteItem = () => deleteTask(id);
 

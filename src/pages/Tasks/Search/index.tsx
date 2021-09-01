@@ -3,11 +3,13 @@ import { Search as SearchBox } from '@alifd/next';
 import styles from './index.module.scss';
 import store from '@/store';
 import { NO_STATUS_FILTER } from '@/constants/task';
+import * as _ from 'lodash';
 
 const Search = () => {
-  const statusDict = JSON.parse(window.localStorage.getItem('statusDict')!);
-
   const { getTasks } = store.useModelDispatchers('task');
+  let { statusDict } = store.useModelState('taskStatus');
+
+  statusDict = _.isEmpty(statusDict) ? JSON.parse(window.localStorage.statusDict) : statusDict;
 
   const handleSearch = (searchVal: string, filterVal: string) => {
     getTasks({

@@ -9,7 +9,8 @@ import taskService from '@/services/task';
 const FormItem = Form.Item;
 
 const SignIn = () => {
-  const { update } = store.useModelDispatchers('token');
+  const { update: updateToken } = store.useModelDispatchers('token');
+  const { update: updateStatusDict } = store.useModelDispatchers('taskStatus');
 
   const history = useHistory();
 
@@ -25,14 +26,12 @@ const SignIn = () => {
     if (!validationErr) {
       try {
         const { accessToken } = await request(username, password);
-        update({ accessToken });
+        updateToken({ accessToken });
         window.localStorage.accessToken = accessToken;
 
-        const statusDict = JSON.parse(window.localStorage.getItem('statusDict')!);
-
-        if (!statusDict) {
-          window.localStorage.setItem('statusDict', JSON.stringify(await requestStatusDict(accessToken)));
-        }
+        const statusDict = await requestStatusDict(accessToken);
+        updateStatusDict({ statusDict });
+        window.localStorage.statusDict = JSON.stringify(statusDict);
 
         history.push('/tasks');
       } catch (error) {
