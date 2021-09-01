@@ -5,7 +5,7 @@ import store from '@/store';
 import { NO_STATUS_FILTER } from '@/constants/task';
 
 const Search = () => {
-  const { statusDict } = window.localStorage;
+  const statusDict = JSON.parse(window.localStorage.getItem('statusDict')!);
 
   const { getTasks } = store.useModelDispatchers('task');
 

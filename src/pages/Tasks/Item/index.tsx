@@ -6,8 +6,8 @@ import store from '@/store';
 
 const { Option } = Select;
 
-const Item = ({ id, title, statusId, description }: ITask) => {
-  const { statusDict } = window.localStorage;
+const Item = ({ id, title, status: statusId, description }: ITask) => {
+  const statusDict = JSON.parse(window.localStorage.getItem('statusDict')!);
 
   const { deleteTask, updateTaskStatus } = store.useModelDispatchers('task');
 
@@ -22,7 +22,9 @@ const Item = ({ id, title, statusId, description }: ITask) => {
       <Box direction="row" align="center" justify="space-between" className={styles.bottomWrapper}>
         <Select defaultValue={statusDict[statusId]} className={styles.statusSelect} onChange={handleStatusChange}>
           {Object.values(statusDict).map((statusName: string) => (
-            <Option value={statusName}>{statusName}</Option>
+            <Option key={statusName} value={statusName}>
+              {statusName}
+            </Option>
           ))}
         </Select>
         <Icon type="ashbin" className={styles.deleteIcon} onClick={handleDeleteItem} />

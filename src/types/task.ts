@@ -2,7 +2,7 @@ interface ITask {
   id: number;
   title: string;
   description: string;
-  statusId: number;
+  status: number;
 }
 
 interface ICreateTaskDto {

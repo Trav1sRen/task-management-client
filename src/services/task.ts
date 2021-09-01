@@ -1,13 +1,10 @@
 import { ICreateTaskDto, ISearchTasksParam, IUpdateTaskStatusDto } from '@/types/task';
-import { getKeyByValue } from '@/tools/object.utils';
-
-const { statusDict } = window.localStorage;
 
 export default {
-  getTasks: ({ status, search }: ISearchTasksParam, accessToken: string) => ({
+  getTasks: (params: ISearchTasksParam, accessToken: string) => ({
     url: '/tasks',
     headers: { Authorization: `Bearer ${accessToken}` },
-    params: { status: status ? getKeyByValue(statusDict, status) : undefined, search },
+    params,
   }),
 
   createTask: (data: ICreateTaskDto, accessToken: string) => ({
@@ -17,11 +14,11 @@ export default {
     data,
   }),
 
-  updateTaskStatus: (id: number, { status }: IUpdateTaskStatusDto, accessToken: string) => ({
+  updateTaskStatus: (id: number, data: IUpdateTaskStatusDto, accessToken: string) => ({
     url: `/tasks/${id}/status`,
     method: 'PATCH',
     headers: { Authorization: `Bearer ${accessToken}` },
-    data: { status: getKeyByValue(statusDict, status) },
+    data,
   }),
 
   deleteTask: (id: number, accessToken: string) => ({

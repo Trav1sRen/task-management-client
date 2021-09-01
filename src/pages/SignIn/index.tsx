@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 import { Link, useHistory, useRequest } from 'ice';
 import userService from '@/services/user';
 import store from '@/store';
+import taskService from '@/services/task';
 
 const FormItem = Form.Item;
 
@@ -16,6 +17,8 @@ const SignIn = () => {
     throwOnError: true,
   });
 
+  const { request: requestStatusDict } = useRequest(taskService.getStatusDict);
+
   const [signInError, setSignInError] = useState('');
 
   const handleSubmit = async ({ username, password }, validationErr) => {
@@ -24,6 +27,12 @@ const SignIn = () => {
         const { accessToken } = await request(username, password);
         update({ accessToken });
         window.localStorage.accessToken = accessToken;
+
+        const statusDict = JSON.parse(window.localStorage.getItem('statusDict')!);
+
+        if (!statusDict) {
+          window.localStorage.setItem('statusDict', JSON.stringify(await requestStatusDict(accessToken)));
+        }
 
         history.push('/tasks');
       } catch (error) {
